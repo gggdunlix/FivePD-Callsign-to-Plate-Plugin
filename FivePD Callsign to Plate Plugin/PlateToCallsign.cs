@@ -14,21 +14,33 @@ namespace PlateToCallsign
         {
             internal Plugin()
             {
-
-                EventHandlers["FivePD::Client::SpawnVehicle"] += new Action<Ped>(DoPlateToCallsign);
+                Events.OnDutyStatusChange += OnDutyStatusChange;
+                 
             }
-
-            private void DoPlateToCallsign(Ped ped)
+            private async Task OnDutyStatusChange(bool onDuty)
             {
+                if (onDuty)
+                {
+                    EventHandlers["FivePD::Client::SpawnVehicle"] += new Action<int, int>(DoPlateToCallsign); //Natixco
+                }
+                else
+                {
+                }
+            }
+            private void DoPlateToCallsign(int playerServerId, int vehicleNetworkId)
+            {
+                if (vehicleNetworkId > 0)
+                {
 
-                
-                Vehicle PedCar = ped.CurrentVehicle;
+                    PlayerData data = Utilities.GetPlayerData();
+                    int ActualVehicleID = Game.PlayerPed.CurrentVehicle.NetworkId;
+                    string Callsign = data.Callsign;
+                    
+                    //with help from Grandpa Rex
 
-                PlayerData playerData = Utilities.GetPlayerData();
-                string CallSign = playerData.Callsign;
-                
-                API.SetVehicleNumberPlateText(PedCar.NetworkId, CallSign);
-                
+                    var vehicle = Entity.FromNetworkId(vehicleNetworkId);
+                    API.SetVehicleNumberPlateText(vehicle.Handle, Callsign);
+                }
 
             }
         }
