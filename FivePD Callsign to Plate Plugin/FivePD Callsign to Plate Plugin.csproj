@@ -16,6 +16,9 @@
     <Reference Include="FivePD.net">
       <HintPath>..\..\..\..\..\..\txData\QBCoreFramework_C9E8E1.base\resources\[oldserver]\fivepd\FivePD.net.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\..\..\Desktop\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
